@@ -88,11 +88,12 @@
 
 /* Default overlay design to match provided image */
 .video .overlay-title {
-  /* Use uploaded Futura display font */
+  /* Use uploaded Futura display font; much larger to match design */
   font-family: 'FuturaDisplay', 'Anton', 'Oswald', 'Impact', 'Arial Black', sans-serif;
   font-weight: 900;
-  font-size: clamp(3.5rem, 8.5vw, 9rem);
-  line-height: 0.82;
+  /* larger clamp to allow very large headline on wide viewports */
+  font-size: clamp(4rem, 10vw, 14rem);
+  line-height: 0.78;
   letter-spacing: -0.02em;
   text-transform: uppercase;
   margin: 0 0 0.4rem 0;

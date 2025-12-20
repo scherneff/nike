@@ -136,7 +136,7 @@ export default function decorate(block) {
       const cta = document.createElement('a');
       cta.className = 'overlay-cta';
       cta.href = runtimeCta;
-      cta.textContent = 'Shop Gifts';
+      cta.textContent = runtimeCtaText || 'Shop Gifts';
       content.appendChild(cta);
     }
   } else {
