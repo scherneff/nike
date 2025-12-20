@@ -115,7 +115,6 @@ export default function decorate(block) {
   loadVideoEmbed(block, link, true, true);
 
   // determine optional runtime config from model data attributes or overlay source
-  const runtimePosition = modelOverlayPosition || (overlaySource && overlaySource.dataset && (overlaySource.dataset.position || overlaySource.dataset.overlayPosition)) || '';
 
   // helper to extract anchor info from an overlay source node
   const extractAnchor = (node) => {
