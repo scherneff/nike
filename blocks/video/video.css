@@ -103,12 +103,30 @@
   font-family: 'FuturaDisplay', 'Anton', 'Oswald', 'Impact', 'Arial Black', sans-serif;
   font-weight: 900;
   /* larger clamp to allow very large headline on wide viewports */
-  font-size: clamp(5rem, 11.5vw, 16rem);
+  font-size: clamp(5rem, 11.5vw, 18rem) !important;
   line-height: 0.78;
   letter-spacing: -0.03em;
   text-transform: uppercase;
   margin: 0 0 0.6rem 0;
   text-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+
+/* defensive rules to prevent other stylesheets from hiding or shrinking the overlay */
+.video.has-overlay .video-overlay,
+.video .video-overlay {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.video .overlay-title {
+  display: block !important;
+  transform: none !important;
+}
+
+.video .overlay-cta {
+  display: inline-flex !important;
+  visibility: visible !important;
 }
 
 .video .overlay-subtitle {
