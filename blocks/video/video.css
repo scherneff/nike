@@ -49,19 +49,21 @@
 
 /* Default overlay design to match provided image */
 .video .overlay-title {
+  /* Use condensed, heavy display style similar to source */
+  font-family: 'Anton', 'Oswald', 'Impact', 'Arial Black', sans-serif;
   font-weight: 900;
-  font-size: clamp(2.5rem, 6vw, 5.5rem);
-  line-height: 0.85;
-  letter-spacing: 0.02em;
+  font-size: clamp(3.5rem, 8.5vw, 9rem);
+  line-height: 0.82;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
-  margin: 0 0 0.5rem 0;
-  font-family: 'Arial Black', 'Helvetica Black', Impact, sans-serif;
+  margin: 0 0 0.4rem 0;
 }
 
 .video .overlay-subtitle {
   margin: 0 0 1rem 0;
   font-size: 1rem;
   opacity: 0.95;
+  max-width: 60rem;
 }
 
 .video .overlay-cta {
@@ -73,6 +75,7 @@
   text-decoration: none;
   font-weight: 600;
   margin-top: 0.5rem;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
 }
 
 .video .overlay-dots {
