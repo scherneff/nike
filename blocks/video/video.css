@@ -87,37 +87,53 @@
   pointer-events: auto;
 }
 
+.video .video-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  /* subtle gradient to improve legibility over video */
+  background: linear-gradient(180deg, rgba(0,0,0,0.20) 0%, rgba(0,0,0,0.45) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
 /* Default overlay design to match provided image */
 .video .overlay-title {
   /* Use uploaded Futura display font; much larger to match design */
   font-family: 'FuturaDisplay', 'Anton', 'Oswald', 'Impact', 'Arial Black', sans-serif;
   font-weight: 900;
   /* larger clamp to allow very large headline on wide viewports */
-  font-size: clamp(4rem, 10vw, 14rem);
+  font-size: clamp(5rem, 11.5vw, 16rem);
   line-height: 0.78;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   text-transform: uppercase;
-  margin: 0 0 0.4rem 0;
+  margin: 0 0 0.6rem 0;
+  text-shadow: 0 10px 30px rgba(0,0,0,0.6);
 }
 
 .video .overlay-subtitle {
   margin: 0 0 1rem 0;
-  font-size: 1rem;
+  font-size: 1.125rem;
   opacity: 0.95;
   max-width: 60rem;
+  text-shadow: 0 6px 18px rgba(0,0,0,0.45);
 }
 
 .video .overlay-cta {
-  display: inline-block;
-  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
   color: #111;
-  padding: 0.6rem 1rem;
+  padding: 0.75rem 1.5rem;
   border-radius: 999px;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 700;
   font-family: 'FuturaDisplay', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  margin-top: 0.5rem;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  margin-top: 0.75rem;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.45);
+  font-size: 1rem;
+  z-index: 2;
 }
 
 .video .overlay-dots {
@@ -170,8 +186,20 @@
   justify-content: center;
 }
 .video .video-overlay .overlay-content {
-  max-width: 90%;
+  max-width: min(80%, 70rem);
   font-size: 1.25rem;
+  position: relative;
+  z-index: 2; /* sit above the gradient layer */
+}
+
+/* responsive tuning for small viewports */
+@media (max-width: 720px) {
+  .video .overlay-title {
+    font-size: clamp(2.25rem, 12vw, 4.5rem);
+    line-height: 0.9;
+  }
+  .video .overlay-subtitle { font-size: 0.95rem; }
+  .video .overlay-cta { padding: 0.5rem 1rem; font-size: 0.95rem; }
 }
 
 .video .video-placeholder {
