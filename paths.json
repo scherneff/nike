@@ -1,22 +1,22 @@
 {
   "mappings": [
-    "/content/wknd-universal/language-masters/en:/",
-    "/content/wknd-universal/language-masters/en/:/en/",
-    "/content/wknd-universal/language-masters/fr/:/fr/",
-    "/content/wknd-universal/language-masters/fr:/fr",
-    "/content/wknd-universal/language-masters/es/:/es/",
-    "/content/wknd-universal/language-masters/es:/es",
-    "/content/wknd-universal/language-masters/ja/:/ja/",
-    "/content/wknd-universal/language-masters/ja:/ja",
-    "/content/wknd-universal/language-masters/de/:/de/",
-    "/content/wknd-universal/language-masters/de:/de",
-    "/content/wknd-universal/configuration:/.helix/config.json",
-    "/content/wknd-universal/metadata:/metadata.json",
-    "/content/wknd-universal/redirects:/redirects.json",
-    "/content/wknd-universal/placeholders:/placeholders.json"
+    "/content/nike/language-masters/en:/",
+    "/content/nike/language-masters/en/:/en/",
+    "/content/nike/language-masters/fr/:/fr/",
+    "/content/nike/language-masters/fr:/fr",
+    "/content/nike/language-masters/es/:/es/",
+    "/content/nike/language-masters/es:/es",
+    "/content/nike/language-masters/ja/:/ja/",
+    "/content/nike/language-masters/ja:/ja",
+    "/content/nike/language-masters/de/:/de/",
+    "/content/nike/language-masters/de:/de",
+    "/content/nike/configuration:/.helix/config.json",
+    "/content/nike/metadata:/metadata.json",
+    "/content/nike/redirects:/redirects.json",
+    "/content/nike/placeholders:/placeholders.json"
   ],
   "includes": [
-    "/content/wknd-universal/",
-    "/content/dam/wknd-universal/"
+    "/content/nike",
+    "/content/dam/nike/"
   ]
 }
