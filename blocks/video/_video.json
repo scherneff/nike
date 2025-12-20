@@ -28,6 +28,36 @@
             "name": "videoUrl",
             "label": "Video Url"
           }        
+          ,
+          {
+            "component": "text",
+            "valueType": "string",
+            "required": false,
+            "name": "overlayText",
+            "label": "Overlay Text"
+          }
+          ,
+          {
+            "component": "text",
+            "valueType": "string",
+            "required": false,
+            "name": "overlayCtaUrl",
+            "label": "Overlay CTA URL"
+          }
+          ,
+          {
+            "component": "select",
+            "valueType": "string",
+            "required": false,
+            "name": "overlayPosition",
+            "label": "Overlay Position",
+            "options": [
+              { "value": "center", "label": "Center" },
+              { "value": "bottom-center", "label": "Bottom Center" },
+              { "value": "top-left", "label": "Top Left" },
+              { "value": "bottom-right", "label": "Bottom Right" }
+            ]
+          }
       ]
     }
   ],

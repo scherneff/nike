@@ -30,6 +30,108 @@
   max-width: 100%;
 }
 
+/* Overlay text styles for video block */
+.video.has-overlay {
+  position: relative;
+}
+
+.video .video-overlay {
+  position: absolute;
+  pointer-events: none; /* This line remains unchanged */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  color: #fff;
+  text-align: center;
+  padding: 1rem;
+  z-index: 2;
+  max-width: 90%; /* This line remains unchanged */
+  pointer-events: auto; /* Allow clicks on overlay content */
+}
+
+/* Default overlay design to match provided image */
+.video .overlay-title {
+  font-weight: 900;
+  font-size: clamp(2.5rem, 6vw, 5.5rem);
+  line-height: 0.85;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin: 0 0 0.5rem 0;
+  font-family: 'Arial Black', 'Helvetica Black', Impact, sans-serif;
+}
+
+.video .overlay-subtitle {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  opacity: 0.95;
+}
+
+.video .overlay-cta {
+  display: inline-block;
+  background: #fff;
+  color: #111;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.video .overlay-dots {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.video .overlay-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.6);
+  display: inline-block;
+}
+
+/* Ensure overlay content stacks on top of iframe/video */
+.video iframe,
+.video video {
+  position: relative;
+  z-index: 1;
+}
+
+/* Overlay position modifiers */
+.video.position-bottom-center .video-overlay {
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 6vh;
+}
+
+.video.position-top-left .video-overlay {
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-left: 6vw;
+  padding-top: 6vh;
+  text-align: left;
+}
+
+.video.position-bottom-right .video-overlay {
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding-right: 6vw;
+  padding-bottom: 6vh;
+  text-align: right;
+}
+
+.video.position-center .video-overlay {
+  align-items: center;
+  justify-content: center;
+}
+.video .video-overlay .overlay-content {
+  max-width: 90%;
+  font-size: 1.25rem;
+}
+
 .video .video-placeholder {
   width: 100%;
   aspect-ratio: 16 / 9;
