@@ -115,10 +115,25 @@ export default function decorate(block) {
   loadVideoEmbed(block, link, true, true);
 
   // determine optional runtime config from model data attributes or overlay source
-  const runtimePosition = modelOverlayPosition || (overlaySource && overlaySource.dataset && overlaySource.dataset.position) || '';
-  const runtimeCta = modelOverlayCta || (overlaySource && overlaySource.dataset && overlaySource.dataset.cta) || '';
-  const runtimeCtaText = modelOverlayCtaText || (overlaySource && overlaySource.dataset && overlaySource.dataset.ctatext) || '';
-  const runtimeText = modelOverlayText || '';
+  const runtimePosition = modelOverlayPosition || (overlaySource && overlaySource.dataset && (overlaySource.dataset.position || overlaySource.dataset.overlayPosition)) || '';
+
+  // helper to extract anchor info from an overlay source node
+  const extractAnchor = (node) => {
+    if (!node) return { href: '', text: '' };
+    const a = node.querySelector && (node.querySelector('a') || node.querySelector('[data-cta]'));
+    if (a) {
+      return {
+        href: a.getAttribute('href') || a.getAttribute('data-href') || a.getAttribute('data-src') || '',
+        text: (a.textContent && a.textContent.trim()) || (a.getAttribute('data-ctatext') || ''),
+      };
+    }
+    return { href: '', text: '' };
+  };
+
+  const extracted = extractAnchor(overlaySource);
+  const runtimeCta = modelOverlayCta || (overlaySource && overlaySource.dataset && (overlaySource.dataset.cta || overlaySource.dataset.overlayCta)) || extracted.href || '';
+  const runtimeCtaText = modelOverlayCtaText || (overlaySource && overlaySource.dataset && (overlaySource.dataset.ctatext || overlaySource.dataset.overlayCtatext)) || extracted.text || '';
+  const runtimeText = modelOverlayText || (overlaySource && overlaySource.dataset && overlaySource.dataset.text) || '';
 
   // always create overlay container (use provided content or default design)
   block.classList.add('has-overlay');
@@ -132,7 +147,16 @@ export default function decorate(block) {
   content.className = 'overlay-content';
 
   if (overlayHTML) {
+    // use authored overlay HTML, but if authored HTML doesn't include a CTA and a runtime CTA exists, append one
     content.innerHTML = overlayHTML;
+    const hasCtaInHtml = !!content.querySelector('.overlay-cta') || !!content.querySelector('a');
+    if (!hasCtaInHtml && runtimeCta) {
+      const cta = document.createElement('a');
+      cta.className = 'overlay-cta';
+      cta.href = runtimeCta;
+      cta.textContent = runtimeCtaText || 'Shop Gifts';
+      content.appendChild(cta);
+    }
   } else if (runtimeText) {
     // if model provided a single overlay text string, use it as the title
     const title = document.createElement('h1');
