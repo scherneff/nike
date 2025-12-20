@@ -139,10 +139,12 @@ export default function decorate(block) {
     if (!node) return { href: '', text: '' };
     const a = node.querySelector && (node.querySelector('a') || node.querySelector('[data-cta]'));
     if (a) {
-      return {
-        href: a.getAttribute('href') || a.getAttribute('data-href') || a.getAttribute('data-src') || '',
-        text: (a.textContent && a.textContent.trim()) || (a.getAttribute('data-ctatext') || ''),
-      };
+      const href = a.getAttribute('href') || a.getAttribute('data-href') || a.getAttribute('data-src') || '';
+      // prefer explicit data-ctatext, otherwise only use anchor text when it is not the raw href
+      let text = a.getAttribute('data-ctatext') || (a.textContent && a.textContent.trim()) || '';
+      const txtIsUrl = text && (text === href || /^https?:\/\//.test(text) || text.startsWith('/'));
+      if (txtIsUrl) text = '';
+      return { href, text };
     }
     return { href: '', text: '' };
   };
@@ -189,7 +191,8 @@ export default function decorate(block) {
       const cta = document.createElement('a');
       cta.className = 'overlay-cta';
       cta.href = runtimeCta;
-      cta.textContent = runtimeCtaText || 'Shop Gifts';
+      // prefer provided CTA label; fall back to friendly default rather than raw URL
+      cta.textContent = (runtimeCtaText && !(runtimeCtaText === runtimeCta || /^https?:\/\//.test(runtimeCtaText) || runtimeCtaText.startsWith('/'))) ? runtimeCtaText : 'Shop Gifts';
       content.appendChild(cta);
     }
   } else if (runtimeText) {
@@ -197,13 +200,19 @@ export default function decorate(block) {
     const title = document.createElement('h1');
     title.className = 'overlay-title';
     title.textContent = runtimeText;
+    // force requested font-size to avoid external overrides
+    try {
+      title.style.setProperty('font-size', '56pt', 'important');
+    } catch (e) {
+      title.style.fontSize = '56pt';
+    }
     content.appendChild(title);
     // optional CTA from model
     if (runtimeCta) {
       const cta = document.createElement('a');
       cta.className = 'overlay-cta';
       cta.href = runtimeCta;
-      cta.textContent = runtimeCtaText || 'Shop Gifts';
+      cta.textContent = (runtimeCtaText && !(runtimeCtaText === runtimeCta || /^https?:\/\//.test(runtimeCtaText) || runtimeCtaText.startsWith('/'))) ? runtimeCtaText : 'Shop Gifts';
       content.appendChild(cta);
     }
   } else {
@@ -211,6 +220,11 @@ export default function decorate(block) {
     const title = document.createElement('h1');
     title.className = 'overlay-title';
     title.textContent = 'GYM-READY GIFTS';
+    try {
+      title.style.setProperty('font-size', '56pt', 'important');
+    } catch (e) {
+      title.style.fontSize = '56pt';
+    }
 
     const subtitle = document.createElement('p');
     subtitle.className = 'overlay-subtitle';
