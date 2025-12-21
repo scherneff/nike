@@ -1062,6 +1062,14 @@
         "description": "Primary overlay headline text shown on the video"
       },
       {
+        "component": "text",
+        "valueType": "string",
+        "required": false,
+        "name": "overlaySubText",
+        "label": "Overlay Sub Text",
+        "description": "Secondary overlay subheadline text shown on the video"
+      },
+      {
         "component": "aem-content",
         "valueType": "string",
         "required": false,
