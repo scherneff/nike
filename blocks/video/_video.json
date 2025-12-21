@@ -46,14 +46,6 @@
           }
           ,
           {
-            "component": "text",
-            "valueType": "string",
-            "required": false,
-            "name": "overlayCtaText",
-            "label": "Overlay CTA Text"
-          }
-          ,
-          {
             "component": "select",
             "valueType": "string",
             "required": false,

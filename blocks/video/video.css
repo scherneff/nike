@@ -1,59 +1,3 @@
-@font-face {
-  font-family: 'FuturaDisplay';
-  src: url('/fonts/Futura_1.woff2') format('woff2');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'FuturaDisplay';
-  src: url('/fonts/Futura_2.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'FuturaDisplay';
-  src: url('/fonts/Futura_3.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'FuturaDisplay';
-  src: url('/fonts/Futura_4.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'FuturaDisplay';
-  src: url('/fonts/Futura_5.woff2') format('woff2');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Fallback for authored overlay markup that uses <p> instead of our `.overlay-title` */
-.video.has-overlay .video-overlay .overlay-content p,
-.video.has-overlay .video-overlay .overlay-content > div p {
-  font-family: 'FuturaDisplay', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial !important;
-  font-size: 56pt !important;
-  line-height: 0.95 !important;
-  margin: 0 0 0.25rem !important;
-  color: #ffffff !important;
-  font-weight: 700 !important;
-  letter-spacing: -0.02em !important;
-}
-
-/* Ensure CTA uses Futura and high specificity so site globals don't override */
-.video.has-overlay .video-overlay .overlay-cta {
-  font-family: 'FuturaDisplay', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial !important;
-}
 
 .video-container {
   display: block;
@@ -93,82 +37,45 @@
 
 .video .video-overlay {
   position: absolute;
-  inset: 0; /* cover the entire video area */
+  pointer-events: none; /* This line remains unchanged */
   display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: none;
   color: #fff;
   text-align: center;
   padding: 1rem;
-  z-index: 9999; /* ensure overlay sits above embeds */
-  pointer-events: auto;
-}
-
-.video .video-overlay::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  /* subtle gradient to improve legibility over video */
-  background: linear-gradient(180deg, rgba(0,0,0,0.20) 0%, rgba(0,0,0,0.45) 100%);
-  z-index: 1;
-  pointer-events: none;
+  z-index: 2;
+  max-width: 90%; /* This line remains unchanged */
+  pointer-events: auto; /* Allow clicks on overlay content */
 }
 
 /* Default overlay design to match provided image */
 .video .overlay-title {
-  /* Use uploaded Futura display font; much larger to match design */
-  font-family: 'FuturaDisplay', 'Anton', 'Oswald', 'Impact', 'Arial Black', sans-serif;
   font-weight: 900;
-  /* explicit 56pt headline as requested */
-  font-size: 56pt !important;
-  line-height: 0.78;
-  letter-spacing: -0.03em;
+  font-size: clamp(2.5rem, 6vw, 5.5rem);
+  line-height: 0.85;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
-  margin: 0 0 0.6rem 0;
-  text-shadow: 0 10px 30px rgba(0,0,0,0.6);
-}
-
-/* defensive rules to prevent other stylesheets from hiding or shrinking the overlay */
-.video.has-overlay .video-overlay,
-.video .video-overlay {
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-.video .overlay-title {
-  display: block !important;
-  transform: none !important;
-}
-
-.video .overlay-cta {
-  display: inline-flex !important;
-  visibility: visible !important;
+  margin: 0 0 0.5rem 0;
+  font-family: 'Arial Black', 'Helvetica Black', Impact, sans-serif;
 }
 
 .video .overlay-subtitle {
   margin: 0 0 1rem 0;
-  font-size: 1.125rem;
+  font-size: 1rem;
   opacity: 0.95;
-  max-width: 60rem;
-  text-shadow: 0 6px 18px rgba(0,0,0,0.45);
 }
 
 .video .overlay-cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: #ffffff;
+  display: inline-block;
+  background: #fff;
   color: #111;
-  padding: 0.75rem 1.5rem;
+  padding: 0.6rem 1rem;
   border-radius: 999px;
   text-decoration: none;
-  font-weight: 700;
-  font-family: 'FuturaDisplay', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  margin-top: 0.75rem;
-  box-shadow: 0 10px 26px rgba(0,0,0,0.45);
-  font-size: 1rem;
-  z-index: 2;
+  font-weight: 600;
+  margin-top: 0.5rem;
 }
 
 .video .overlay-dots {
@@ -190,7 +97,7 @@
 .video iframe,
 .video video {
   position: relative;
-  z-index: 0;
+  z-index: 1;
 }
 
 /* Overlay position modifiers */
@@ -221,20 +128,8 @@
   justify-content: center;
 }
 .video .video-overlay .overlay-content {
-  max-width: min(80%, 70rem);
+  max-width: 90%;
   font-size: 1.25rem;
-  position: relative;
-  z-index: 2; /* sit above the gradient layer */
-}
-
-/* responsive tuning for small viewports */
-@media (max-width: 720px) {
-  .video .overlay-title {
-    font-size: clamp(2.25rem, 12vw, 4.5rem);
-    line-height: 0.9;
-  }
-  .video .overlay-subtitle { font-size: 0.95rem; }
-  .video .overlay-cta { padding: 0.5rem 1rem; font-size: 0.95rem; }
 }
 
 .video .video-placeholder {

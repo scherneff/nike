@@ -85,109 +85,14 @@ const loadVideoEmbed = (block, link, autoplay, background) => {
 
 export default function decorate(block) {
   // video component initialized
-  // try to locate a link or source for the video. templates vary; be permissive.
-  const linkEl = block.querySelector(':scope div:nth-child(1) > div a') || block.querySelector(':scope a') || block.querySelector('video source') || block.querySelector('video');
-  // derive the link from common attributes (href, data-src, src) or innerHTML
-  let link = '';
-  if (linkEl) {
-    link = (linkEl.getAttribute && (linkEl.getAttribute('href') || linkEl.getAttribute('data-src') || linkEl.getAttribute('data-video') || linkEl.getAttribute('data-video-url')))
-      || linkEl.src || (linkEl.innerHTML && linkEl.innerHTML.trim()) || '';
-  } else if (block.dataset) {
-    // fallback to model-rendered data attribute on the block
-    link = block.dataset.videoUrl || block.dataset.videourl || '';
-  }
+  const linkEl = block.querySelector(':scope div:nth-child(1) > div a');
+  if (!linkEl) return;
+  const link = linkEl.innerHTML.trim();
   // link debug removed
 
   // capture optional overlay content before clearing block
   const overlaySource = block.querySelector(':scope div:nth-child(2)');
   const overlayHTML = overlaySource ? overlaySource.innerHTML.trim() : '';
-
-  // extract any AEM-rendered model nodes and anchors from the overlay/source BEFORE we clear the block
-  let aueOverlayText = '';
-  let aueOverlayCta = '';
-  let aueOverlayCtaText = '';
-  let aueOverlayPosition = '';
-  if (overlaySource) {
-    const t = overlaySource.querySelector('[data-aue-prop="overlayText"]');
-    const c = overlaySource.querySelector('[data-aue-prop="overlayCtaUrl"]');
-    const ct = overlaySource.querySelector('[data-aue-prop="overlayCtaText"]');
-    const p = overlaySource.querySelector('[data-aue-prop="overlayPosition"]');
-    aueOverlayText = t && t.textContent ? t.textContent.trim() : '';
-    aueOverlayCta = c && c.textContent ? c.textContent.trim() : '';
-    aueOverlayCtaText = ct && ct.textContent ? ct.textContent.trim() : '';
-    aueOverlayPosition = p && p.textContent ? p.textContent.trim() : '';
-  }
-  // also capture any anchors present in the block before clearing
-  const preAnchors = Array.from(block.querySelectorAll('a'));
-
-  // read model-driven values if rendered as data attributes on the block
-  const modelOverlayText = (block.dataset && block.dataset.overlayText) || block.getAttribute('data-overlay-text') || '';
-  const modelOverlayCta = (block.dataset && block.dataset.overlayCtaUrl) || block.getAttribute('data-overlay-cta-url') || block.getAttribute('data-overlayctaurl') || '';
-  const modelOverlayPosition = (block.dataset && block.dataset.overlayPosition) || block.getAttribute('data-overlay-position') || '';
-  // try multiple possible attribute names that different templates might emit for CTA text
-  const modelOverlayCtaText = (block.dataset && block.dataset.overlayCtaText) || block.getAttribute('data-overlay-cta-text') || block.getAttribute('data-overlayctatext') || block.getAttribute('data-cta-text') || '';
-
-  // attempt to find CTA text rendered elsewhere in the same section (some templates render model fields outside the overlay)
-  const findCtaTextInSection = (el) => {
-    try {
-      const section = (el.closest && el.closest('.section')) || document.body;
-      if (!section) return '';
-      // scan for model nodes, explicit data attrs, hidden nodes, or nodes with 'cta' / 'button' in class
-      const selectorList = '[data-aue-prop], [data-overlay-cta-text], [data-overlayctatext], [data-cta-text], [data-ctatext], [style*="display:none"], [hidden], [class*="cta"], [class*="button"]';
-      const candidates = Array.from(section.querySelectorAll(selectorList));
-          for (let i = 0; i < candidates.length; i += 1) {
-        const node = candidates[i];
-        // prefer explicit data-aue-prop matching overlayCtaText
-        const aue = node.getAttribute && node.getAttribute('data-aue-prop');
-        if (aue && aue.toLowerCase().includes('overlayctatext')) {
-          const txt = (node.textContent && node.textContent.trim()) || '';
-          if (txt && !(txt === modelOverlayCta || /^https?:\/\//.test(txt) || txt.startsWith('/'))) return txt;
-        }
-        // pick concise human text content from hidden or utility nodes
-        const txt = (node.getAttribute && node.getAttribute('content')) || (node.textContent && node.textContent.trim()) || '';
-              if (!txt) {
-                // skip
-              } else if (txt.length > 80) {
-                // skip
-              } else if (txt === modelOverlayCta) {
-                // skip
-              } else if (/^https?:\/\//.test(txt) || txt.startsWith('/')) {
-                // skip
-              } else if (/^(true|false)$/i.test(txt)) {
-                // skip
-              } else {
-                return txt;
-              }
-      }
-      return '';
-    } catch (e) {
-      return '';
-    }
-  };
-
-  const extraCtaText = findCtaTextInSection(block) || '';
-
-  // Diagnostic logs to help debug where the CTA label is coming from at runtime
-  try {
-    // debug: video CTA text and links removed
-  } catch (e) {
-    // ignore logging errors in older browsers
-  }
-
-  // Temporary on-page debug badge (visible even when console is filtered)
-  try {
-    const dbg = document.createElement('div');
-    dbg.className = 'video-debug-badge';
-    dbg.setAttribute('aria-hidden', 'true');
-    dbg.style.cssText = 'position:fixed;bottom:12px;left:12px;background:rgba(0,0,0,0.76);color:#fff;padding:6px 8px;font-size:12px;z-index:2147483647;border-radius:4px;pointer-events:none;opacity:0.95;';
-    const label = (modelOverlayCtaText || aueOverlayCtaText || extraCtaText || runtimeCtaText) || '(none)';
-    dbg.textContent = `video CTA: "${label}" — href: ${runtimeCta || '(none)'} `;
-    // attach to document body so it's visible on the live page; auto-remove after 15s
-    (document.body || document.documentElement).appendChild(dbg);
-    setTimeout(() => { try { dbg.remove(); } catch (e) {} }, 15000);
-  } catch (e) {
-    // ignore DOM errors in restrictive contexts
-  }
 
   block.textContent = '';
   block.dataset.embedLoaded = false;
@@ -195,50 +100,14 @@ export default function decorate(block) {
   // force autoplay, loop and hide controls for this block
   loadVideoEmbed(block, link, true, true);
 
-  // determine optional runtime config from model data attributes or overlay source
-
-  // helper to extract anchor info from an overlay source node
-  const extractAnchor = (node) => {
-    if (!node) return { href: '', text: '' };
-    const a = node.querySelector && (node.querySelector('a') || node.querySelector('[data-cta]'));
-    if (a) {
-      const href = a.getAttribute('href') || a.getAttribute('data-href') || a.getAttribute('data-src') || '';
-      // prefer explicit data-ctatext, otherwise only use anchor text when it is not the raw href
-      let text = a.getAttribute('data-ctatext') || (a.textContent && a.textContent.trim()) || '';
-      const txtIsUrl = text && (text === href || /^https?:\/\//.test(text) || text.startsWith('/'));
-      if (txtIsUrl) text = '';
-      return { href, text };
-    }
-    return { href: '', text: '' };
-  };
-
-  const extracted = extractAnchor(overlaySource);
-
-  // CTA: prefer model value, then overlay-scope anchor, then any anchor in the block that isn't the video source
-  let runtimeCta = modelOverlayCta || aueOverlayCta || (overlaySource && overlaySource.dataset && (overlaySource.dataset.cta || overlaySource.dataset.overlayCta)) || extracted.href || '';
-  let runtimeCtaText = modelOverlayCtaText || aueOverlayCtaText || (overlaySource && overlaySource.dataset && (overlaySource.dataset.ctatext || overlaySource.dataset.overlayCtatext)) || extracted.text || '';
-  const runtimeText = modelOverlayText || aueOverlayText || (overlaySource && overlaySource.dataset && overlaySource.dataset.text) || '';
-
-  if (!runtimeCta) {
-    // find any anchor captured earlier in the block that doesn't match the video link/source
-    for (let i = 0; i < preAnchors.length; i += 1) {
-      const a = preAnchors[i];
-      const href = a.getAttribute('href') || '';
-      if (!href) {
-        // skip
-      } else if (href === link || href.includes('asset_video_manifest') || href.includes('youtube') || href.includes('v=')) {
-        // skip
-      } else {
-        runtimeCta = runtimeCta || href;
-        runtimeCtaText = runtimeCtaText || (a.textContent && a.textContent.trim()) || runtimeCtaText;
-        if (runtimeCta) { break; }
-      }
-    }
+  // determine optional runtime config from data-attributes or overlay source
+  const runtimePosition = (block.dataset && block.dataset.overlayposition) || (overlaySource && overlaySource.dataset && overlaySource.dataset.position) || '';
+  const runtimeCta = (block.dataset && block.dataset.overlayctaul) || (overlaySource && overlaySource.dataset && overlaySource.dataset.cta) || '';
 
   // always create overlay container (use provided content or default design)
   block.classList.add('has-overlay');
-  // add position class to block for CSS modifiers; normalize to known values
-  const pos = (runtimePosition || 'center').replace(/ /g, '-');
+  // add position class to block for CSS modifiers
+  const pos = runtimePosition || 'center';
   block.classList.add(`position-${pos}`);
 
   const overlay = document.createElement('div');
@@ -247,87 +116,12 @@ export default function decorate(block) {
   content.className = 'overlay-content';
 
   if (overlayHTML) {
-    // If authored overlay contains AEM model nodes, convert them to our styled structure
-    const aueTitleNode = overlaySource && overlaySource.querySelector('[data-aue-prop="overlayText"]');
-    const aueCtaNode = overlaySource && (overlaySource.querySelector('[data-aue-prop="overlayCtaUrl"]') || overlaySource.querySelector('a'));
-    if (aueTitleNode) {
-      const title = document.createElement('h1');
-      title.className = 'overlay-title';
-      title.textContent = aueTitleNode.textContent.trim();
-      try { title.style.setProperty('font-size', '56pt', 'important'); } catch (e) { title.style.fontSize = '56pt'; }
-      content.appendChild(title);
-      // subtitle if present in authored HTML
-      const subtitleNode = overlaySource.querySelector('[data-aue-prop="overlaySubtitle"]');
-      if (subtitleNode) {
-        const subtitle = document.createElement('p');
-        subtitle.className = 'overlay-subtitle';
-        subtitle.textContent = subtitleNode.textContent.trim();
-        content.appendChild(subtitle);
-      }
-      // append CTA if available
-      if (runtimeCta || (aueCtaNode && aueCtaNode.getAttribute)) {
-        const cta = document.createElement('a');
-        cta.className = 'overlay-cta';
-        cta.href = runtimeCta || (aueCtaNode.getAttribute && aueCtaNode.getAttribute('href')) || '#';
-        if (runtimeCtaText && !(runtimeCtaText === runtimeCta || /^https?:\/\//.test(runtimeCtaText) || runtimeCtaText.startsWith('/'))) {
-          cta.textContent = runtimeCtaText;
-        } else if (aueCtaNode && aueCtaNode.textContent && aueCtaNode.textContent.trim() && aueCtaNode.textContent.trim() !== cta.href) {
-          cta.textContent = aueCtaNode.textContent.trim();
-        } else {
-          cta.textContent = 'Shop Gifts';
-        }
-        content.appendChild(cta);
-      }
-    } else {
-      // fallback: inject the raw authored HTML but ensure CTA is present
-      content.innerHTML = overlayHTML;
-      const hasCtaInHtml = !!content.querySelector('.overlay-cta') || !!content.querySelector('a');
-      if (!hasCtaInHtml && runtimeCta) {
-        const cta = document.createElement('a');
-        cta.className = 'overlay-cta';
-        cta.href = runtimeCta;
-        if (runtimeCtaText && !(runtimeCtaText === runtimeCta || /^https?:\/\//.test(runtimeCtaText) || runtimeCtaText.startsWith('/'))) {
-          cta.textContent = runtimeCtaText;
-        } else {
-          cta.textContent = 'Shop Gifts';
-        }
-        content.appendChild(cta);
-      }
-    }
-  } else if (runtimeText) {
-    // if model provided a single overlay text string, use it as the title
-    const title = document.createElement('h1');
-    title.className = 'overlay-title';
-    title.textContent = runtimeText;
-    // force requested font-size to avoid external overrides
-    try {
-      title.style.setProperty('font-size', '56pt', 'important');
-    } catch (e) {
-      title.style.fontSize = '56pt';
-    }
-    content.appendChild(title);
-    // optional CTA from model
-    if (runtimeCta) {
-      const cta = document.createElement('a');
-      cta.className = 'overlay-cta';
-      cta.href = runtimeCta;
-      if (runtimeCtaText && !(runtimeCtaText === runtimeCta || /^https?:\/\//.test(runtimeCtaText) || runtimeCtaText.startsWith('/'))) {
-        cta.textContent = runtimeCtaText;
-      } else {
-        cta.textContent = 'Shop Gifts';
-      }
-      content.appendChild(cta);
-    }
+    content.innerHTML = overlayHTML;
   } else {
     // Default markup matching provided design image
     const title = document.createElement('h1');
     title.className = 'overlay-title';
     title.textContent = 'GYM-READY GIFTS';
-    try {
-      title.style.setProperty('font-size', '56pt', 'important');
-    } catch (e) {
-      title.style.fontSize = '56pt';
-    }
 
     const subtitle = document.createElement('p');
     subtitle.className = 'overlay-subtitle';
@@ -335,20 +129,16 @@ export default function decorate(block) {
 
     const cta = document.createElement('a');
     cta.className = 'overlay-cta';
-    // use runtime CTA URL and CTA Text if provided, otherwise fallback to model default or '#'
+    // use runtime CTA if provided, otherwise default to '#'
     cta.href = runtimeCta || '#';
-    cta.textContent = runtimeCtaText || 'Shop Gifts';
+    cta.textContent = 'Shop Gifts';
 
     const dots = document.createElement('div');
     dots.className = 'overlay-dots';
-      for (let i = 0; i < 3; i++) {
-        const dot = document.createElement('span');
-        if (dot) {
-          dots.appendChild(dot);
-        } else {
-          // Handle the case where dot is not created
-        }
-      }
+    for (let i = 0; i < 3; i += 1) {
+      const dot = document.createElement('span');
+      dots.appendChild(dot);
+    }
 
     content.appendChild(title);
     content.appendChild(subtitle);
@@ -358,100 +148,4 @@ export default function decorate(block) {
 
   overlay.appendChild(content);
   block.appendChild(overlay);
-
-  // Inline debug label placed next to the CTA inside the overlay (temporary)
-  try {
-    const ctaEl = block.querySelector('.overlay-cta');
-    if (ctaEl) {
-      const inlineDbg = document.createElement('span');
-      inlineDbg.className = 'video-debug-inline';
-      inlineDbg.style.cssText = 'display:inline-block;margin-left:8px;background:rgba(255,255,255,0.08);color:#fff;padding:2px 6px;border-radius:3px;font-size:11px;vertical-align:middle;pointer-events:none;';
-      const label = (modelOverlayCtaText || aueOverlayCtaText || extraCtaText || runtimeCtaText) || '(none)';
-      inlineDbg.textContent = `CTA: ${label}`;
-      if (ctaEl.parentNode) { ctaEl.parentNode.insertBefore(inlineDbg, ctaEl.nextSibling); }
-      setTimeout(() => { try { inlineDbg.remove(); } catch (e) { /* ignore */ } }, 15000);
-    }
-  } catch (e) {
-    // ignore
-  }
-
-  // Set up a MutationObserver to re-apply CTA override if the block is updated later (e.g., authoring runtime)
-  try {
-    // avoid adding multiple observers if decorate runs more than once
-    if (!block.videoCtaObserver) {
-      const applyCtaOverride = () => {
-        try {
-          const modelTextNow = (block.dataset && block.dataset.overlayCtaText) || block.getAttribute('data-overlay-cta-text') || '';
-          const aueNodeNow = block.querySelector && block.querySelector('[data-aue-prop="overlayCtaText"]');
-          const aueTextNow = (aueNodeNow && aueNodeNow.textContent && aueNodeNow.textContent.trim()) || '';
-          const preferredNow = modelTextNow || aueTextNow || '';
-          const ctaElNow = block.querySelector && block.querySelector('.overlay-cta');
-          if (preferredNow && ctaElNow && !(preferredNow === runtimeCta || /^https?:\/\//.test(preferredNow) || preferredNow.startsWith('/'))) {
-            ctaElNow.textContent = preferredNow;
-          }
-          // update inline debug if present
-          const inlineDbgNow = block.querySelector && block.querySelector('.video-debug-inline');
-          if (inlineDbgNow) inlineDbgNow.textContent = `CTA: ${preferredNow || '(none)'}`;
-        } catch (e) {
-          // ignore
-        }
-      };
-
-      let debounceTimer;
-      // wrapped apply that also looks for nearby button/link model nodes (common AEM naming)
-      const extendedApply = () => {
-        try {
-          // re-evaluate potential model nodes in the block and surrounding section
-          const modelTextNow = (block.dataset && block.dataset.overlayCtaText) || block.getAttribute('data-overlay-cta-text') || '';
-          const aueNodeNow = block.querySelector && (block.querySelector('[data-aue-prop="overlayCtaText"]') || block.querySelector('[data-aue-prop="linkText"]'));
-          let aueTextNow = (aueNodeNow && aueNodeNow.textContent && aueNodeNow.textContent.trim()) || '';
-          // also check nearby section for common button model fields like linkText
-          if (!aueTextNow) {
-            const section = (block.closest && block.closest('.section')) || document.body;
-            if (section) {
-              const alt = section.querySelector('[data-aue-prop="linkText"], [data-link-text], [data-linktext], [data-linktext]');
-              if (alt) aueTextNow = (alt.textContent && alt.textContent.trim()) || aueTextNow;
-            }
-          }
-          const preferredNow = modelTextNow || aueTextNow || '';
-          const ctaElNow = block.querySelector && block.querySelector('.overlay-cta');
-          if (preferredNow && ctaElNow && !(preferredNow === runtimeCta || /^https?:\/\//.test(preferredNow) || preferredNow.startsWith('/'))) {
-            ctaElNow.textContent = preferredNow;
-          }
-          const inlineDbgNow = block.querySelector && block.querySelector('.video-debug-inline');
-          if (inlineDbgNow) inlineDbgNow.textContent = `CTA: ${preferredNow || '(none)'}`;
-        } catch (e) {
-          // ignore
-        }
-      };
-
-      const mo = new MutationObserver(() => {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => extendedApply(), 150);
-      });
-      mo.observe(block, { attributes: true, childList: true, subtree: true });
-      // extend observer lifetime to 2 minutes to catch late authoring runtime updates
-      const maxLifetime = 2 * 60 * 1000;
-      const killAt = Date.now() + maxLifetime;
-      const lifetimeInterval = setInterval(() => {
-        if (Date.now() > killAt) {
-          try { mo.disconnect(); } catch (e) {}
-          clearInterval(lifetimeInterval);
-        }
-      }, 5000);
-      block.videoCtaObserver = mo;
-    }
-  } catch (e) {
-    // ignore observer errors
-  }
-
-  // HARD OVERRIDE: only replace CTA text when an explicit model (`data-overlay-cta-text`) or
-  // AEM `data-aue-prop="overlayCtaText"` value is present. Ignore generic buttons elsewhere.
-  const preferredCtaLabel = modelOverlayCtaText || aueOverlayCtaText || '';
-  if (preferredCtaLabel) {
-    if (!(preferredCtaLabel === runtimeCta || /^https?:\/\//.test(preferredCtaLabel) || preferredCtaLabel.startsWith('/'))) {
-      const ctaEl = block.querySelector('.overlay-cta');
-      if (ctaEl) ctaEl.textContent = preferredCtaLabel;
-    }
-  }
 }
