@@ -336,6 +336,22 @@ export default function decorate(block) {
   overlay.appendChild(content);
   block.appendChild(overlay);
 
+  // Inline debug label placed next to the CTA inside the overlay (temporary)
+  try {
+    const ctaEl = block.querySelector('.overlay-cta');
+    if (ctaEl) {
+      const inlineDbg = document.createElement('span');
+      inlineDbg.className = 'video-debug-inline';
+      inlineDbg.style.cssText = 'display:inline-block;margin-left:8px;background:rgba(255,255,255,0.08);color:#fff;padding:2px 6px;border-radius:3px;font-size:11px;vertical-align:middle;pointer-events:none;';
+      const label = (modelOverlayCtaText || aueOverlayCtaText || extraCtaText || runtimeCtaText) || '(none)';
+      inlineDbg.textContent = `CTA: ${label}`;
+      ctaEl.parentNode && ctaEl.parentNode.insertBefore(inlineDbg, ctaEl.nextSibling);
+      setTimeout(() => { try { inlineDbg.remove(); } catch (e) {} }, 15000);
+    }
+  } catch (e) {
+    // ignore
+  }
+
   // HARD OVERRIDE: only replace CTA text when an explicit model (`data-overlay-cta-text`) or
   // AEM `data-aue-prop="overlayCtaText"` value is present. Ignore generic buttons elsewhere.
   const preferredCtaLabel = modelOverlayCtaText || aueOverlayCtaText || '';
