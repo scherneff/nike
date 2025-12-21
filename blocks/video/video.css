@@ -120,6 +120,7 @@
 
 .video video {
   max-width: 100%;
+  width:100%
 }
 
 /* Overlay text styles for video block */
