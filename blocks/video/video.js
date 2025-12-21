@@ -162,6 +162,13 @@ export default function decorate(block) {
 
   const extraCtaText = findCtaTextInSection(block) || '';
 
+  // Diagnostic logs to help debug where the CTA label is coming from at runtime
+  try {
+    console.log('video: modelOverlayCtaText=', modelOverlayCtaText, 'aueOverlayCtaText=', aueOverlayCtaText, 'extraCtaText=', extraCtaText, 'runtimeCtaText=', runtimeCtaText, 'runtimeCta=', runtimeCta);
+  } catch (e) {
+    // ignore logging errors in older browsers
+  }
+
   block.textContent = '';
   block.dataset.embedLoaded = false;
 
