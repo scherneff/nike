@@ -26,39 +26,35 @@ function embedYoutube(url, autoplay, background) {
   return temp.children.item(0);
 }
 
-function getVideoElement(source, autoplay, background) {
+function getVideoElement(source) {
   const video = document.createElement('video');
-  video.setAttribute('controls', '');
-  if (autoplay) video.setAttribute('autoplay', '');
-  if (background) {
-    video.setAttribute('loop', '');
-    video.setAttribute('playsinline', '');
-    video.removeAttribute('controls');
-    video.addEventListener('canplay', () => {
-      video.muted = true;
-      if (autoplay) video.play();
-    });
-  }
-
+  video.setAttribute('autoplay', '');
+  video.setAttribute('loop', '');
+  video.setAttribute('muted', '');
+  video.setAttribute('playsinline', '');
+  video.removeAttribute('controls');
+  video.addEventListener('canplay', () => {
+    video.muted = true;
+    video.play();
+  });
   const sourceEl = document.createElement('source');
   sourceEl.setAttribute('src', source);
-  sourceEl.setAttribute('type', `video/mp4`);
+  sourceEl.setAttribute('type', 'video/mp4');
   video.append(sourceEl);
-
   return video;
 }
 
-const loadVideoEmbed = (block, link, autoplay, background) => {
+const loadVideoEmbed = (block, link) => {
   const isYoutube = link.includes('youtube') || link.includes('youtu.be');
   if (isYoutube) {
     const url = new URL(link);
-    const embedWrapper = embedYoutube(url, autoplay, background);
+    const embedWrapper = embedYoutube(url, true, true);
     block.append(embedWrapper);
     embedWrapper.querySelector('iframe').addEventListener('load', () => {
       block.dataset.embedLoaded = true;
     });
   } else {
-    const videoEl = getVideoElement(link, autoplay, background);
+    const videoEl = getVideoElement(link);
     block.append(videoEl);
     videoEl.addEventListener('canplay', () => {
       block.dataset.embedLoaded = true;
@@ -67,13 +63,8 @@ const loadVideoEmbed = (block, link, autoplay, background) => {
 };
 
 export default function decorate(block) {
-  console.log("video component called successfully");
   const link = block.querySelector(':scope div:nth-child(1) > div a').innerHTML.trim();
-  console.log("link", link);
-  //const link = block.querySelector(':scope div:nth-child(1) > div a').innerHTML.trim();
   block.textContent = '';
   block.dataset.embedLoaded = false;
-  const autoplay = block.classList ? block.classList.contains('autoplay') : false;
-  const playOnLoad = block.classList ? block.classList.contains('playonload') : false;
-  loadVideoEmbed(block, link, playOnLoad, autoplay);
+  loadVideoEmbed(block, link);
 }
