@@ -253,7 +253,7 @@ export default function decorate(block) {
         const cta = document.createElement('a');
         cta.className = 'overlay-cta';
         cta.href = runtimeCta;
-        cta.textContent = (runtimeCtaText && !(runtimeCtaText === runtimeCta || /^https?:\/\//.test(runtimeCtaText) || runtimeCtaText.startsWith('/'))) ? runtimeCtaText : 'Shop Gifts';
+        cta.textContent = (runtimeCtaText && !(runtimeCtaText === runtimeCta || /^https?:\/\//.test(runtimeCtaText) || runtimeCtaText.startsWith('/'))) ? runtimeCtaText : 'Shop Gifsts';
         content.appendChild(cta);
       }
     }
