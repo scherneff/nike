@@ -9,143 +9,58 @@ function embedYoutube(url, autoplay, background) {
       disablekb: background ? '1' : '0',
       loop: background ? '1' : '0',
       playsinline: background ? '1' : '0',
-    };
-    suffix = `&${Object.entries(suffixParams).map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&')}`;
-  }
-  let vid = usp.get('v') ? encodeURIComponent(usp.get('v')) : '';
-  const embed = url.pathname;
-  if (url.origin.includes('youtu.be')) {
-    [, vid] = url.pathname.split('/');
-  }
+    // force autoplay, loop and hide controls for this block
+    loadVideoEmbed(block, link, true, true);
 
-  // YouTube requires playlist=<videoid> for loop to work on embeds
-  if (vid && (usp.get('loop') === '1' || usp.get('autoplay') === '1' || Object.keys(usp).length === 0)) {
-    // nothing here - we'll append playlist via suffix when loop param set via suffixParams
-  }
+    // Always create overlay container matching the design
+    block.classList.add('has-overlay');
+    block.classList.add('position-center');
 
-  const temp = document.createElement('div');
-  temp.innerHTML = `<div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.25%;">
-      <iframe src="https://www.youtube.com${vid ? `/embed/${vid}?rel=0&v=${vid}${suffix}` : embed}" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" 
-      allow="autoplay; fullscreen; picture-in-picture; encrypted-media; accelerometer; gyroscope; picture-in-picture" allowfullscreen="" scrolling="no" title="Content from Youtube" loading="lazy"></iframe>
-    </div>`;
-  // if loop is requested and we have a video id, ensure playlist param is present
-  if (vid && suffix.includes('loop=1') && !suffix.includes('playlist=')) {
-    // append playlist param to the iframe src
-    const node = temp.children.item(0).querySelector('iframe');
-    if (node) {
-      const src = node.getAttribute('src');
-      node.setAttribute('src', `${src}&playlist=${vid}`);
-    }
-  }
+    const overlay = document.createElement('div');
+    overlay.className = 'video-overlay';
+    const content = document.createElement('div');
+    content.className = 'overlay-content';
 
-  return temp.children.item(0);
-}
 
-function getVideoElement(source) {
-  const video = document.createElement('video');
-  // remove controls, enable autoplay, loop and muted for reliable autoplay
-  video.removeAttribute('controls');
-  video.setAttribute('autoplay', '');
-  video.setAttribute('loop', '');
-  video.setAttribute('playsinline', '');
-  video.muted = true;
-  video.addEventListener('canplay', () => {
-    try {
-      video.play();
-    } catch (e) {
-      // play might be blocked depending on browser policies
-    }
-  });
+    // Try to find dynamic elements inside the block
+    let foundTitle = block.querySelector('h1, .overlay-title');
+    let foundSubtitle = block.querySelector('p, .overlay-subtitle');
+    let foundCta = block.querySelector('a, .overlay-cta, button');
 
-  const sourceEl = document.createElement('source');
-  sourceEl.setAttribute('src', source);
-  sourceEl.setAttribute('type', 'video/mp4');
-  video.append(sourceEl);
-
-  return video;
-}
-
-const loadVideoEmbed = (block, link, autoplay, background) => {
-  const isYoutube = link.includes('youtube') || link.includes('youtu.be');
-  if (isYoutube) {
-    const url = new URL(link);
-    const embedWrapper = embedYoutube(url, autoplay, background);
-    block.append(embedWrapper);
-    embedWrapper.querySelector('iframe').addEventListener('load', () => {
-      block.dataset.embedLoaded = true;
-    });
-  } else {
-    const videoEl = getVideoElement(link, autoplay, background);
-    block.append(videoEl);
-    videoEl.addEventListener('canplay', () => {
-      block.dataset.embedLoaded = true;
-    });
-  }
-};
-
-export default function decorate(block) {
-  // video component initialized
-  const linkEl = block.querySelector(':scope div:nth-child(1) > div a');
-  if (!linkEl) return;
-  const link = linkEl.innerHTML.trim();
-  // link debug removed
-
-  // capture optional overlay content before clearing block
-  const overlaySource = block.querySelector(':scope div:nth-child(2)');
-  const overlayHTML = overlaySource ? overlaySource.innerHTML.trim() : '';
-
-  block.textContent = '';
-  block.dataset.embedLoaded = false;
-
-  // force autoplay, loop and hide controls for this block
-  loadVideoEmbed(block, link, true, true);
-
-  // determine optional runtime config from data-attributes or overlay source
-  const runtimePosition = (block.dataset && block.dataset.overlayposition) || (overlaySource && overlaySource.dataset && overlaySource.dataset.position) || '';
-  const runtimeCta = (block.dataset && block.dataset.overlayctaul) || (overlaySource && overlaySource.dataset && overlaySource.dataset.cta) || '';
-
-  // always create overlay container (use provided content or default design)
-  block.classList.add('has-overlay');
-  // add position class to block for CSS modifiers
-  const pos = runtimePosition || 'center';
-  block.classList.add(`position-${pos}`);
-
-  const overlay = document.createElement('div');
-  overlay.className = 'video-overlay';
-  const content = document.createElement('div');
-  content.className = 'overlay-content';
-
-  if (overlayHTML) {
-    content.innerHTML = overlayHTML;
-  } else {
-    // Default markup matching provided design image
+    // Title
     const title = document.createElement('h1');
     title.className = 'overlay-title';
-    title.textContent = 'GYM-READY GIFTS';
+    title.textContent = foundTitle ? foundTitle.textContent.trim() : 'GYM-READY GIFTS';
+    try {
+      title.style.setProperty('font-size', '56pt', 'important');
+    } catch (e) {
+      title.style.fontSize = '56pt';
+    }
+    content.appendChild(title);
 
+    // Subtitle
     const subtitle = document.createElement('p');
     subtitle.className = 'overlay-subtitle';
-    subtitle.textContent = 'Fuel their routine with the best workout styles.';
+    subtitle.textContent = foundSubtitle ? foundSubtitle.textContent.trim() : 'Fuel their routine with the best workout styles.';
+    content.appendChild(subtitle);
 
+    // Button
     const cta = document.createElement('a');
     cta.className = 'overlay-cta';
-    // use runtime CTA if provided, otherwise default to '#'
-    cta.href = runtimeCta || '#';
-    cta.textContent = 'Shop Gifts';
+    cta.href = foundCta && foundCta.getAttribute('href') ? foundCta.getAttribute('href') : '#';
+    cta.textContent = foundCta ? foundCta.textContent.trim() : 'Shop Gifts';
+    cta.style.marginTop = '16px';
+    content.appendChild(cta);
 
+    // Dots
     const dots = document.createElement('div');
     dots.className = 'overlay-dots';
     for (let i = 0; i < 3; i += 1) {
       const dot = document.createElement('span');
       dots.appendChild(dot);
     }
-
-    content.appendChild(title);
-    content.appendChild(subtitle);
-    content.appendChild(cta);
     content.appendChild(dots);
-  }
 
-  overlay.appendChild(content);
-  block.appendChild(overlay);
-}
+    overlay.appendChild(content);
+    block.appendChild(overlay);
+  const sourceEl = document.createElement('source');
