@@ -1057,12 +1057,12 @@ table {
 .cta-button-dark a.button {
   display: inline-block;
   padding: 12px 24px !important;
-  margin: 10px 5px;
+  margin: 5px 5px;
   background-color: var(--text-light) !important;
   color: var(--dark-color) !important;
   text-decoration: none;
   border: 2px solid var(--dark-color) !important;
-  border-radius: 4px;
+  border-radius: 25px;
   font-family: var(--heading-font-family);
   font-weight: 600;
   font-size: 18px;
