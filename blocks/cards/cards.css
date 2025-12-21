@@ -20,7 +20,7 @@
 
 .cards > ul > li img {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  /* aspect-ratio: 16 / 9; */
   object-fit: cover;
   min-height: 255px;
   max-height: 255px;
