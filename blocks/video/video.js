@@ -352,6 +352,44 @@ export default function decorate(block) {
     // ignore
   }
 
+  // Set up a MutationObserver to re-apply CTA override if the block is updated later (e.g., authoring runtime)
+  try {
+    // avoid adding multiple observers if decorate runs more than once
+    if (!block.__videoCtaObserver) {
+      const applyCtaOverride = () => {
+        try {
+          const modelTextNow = (block.dataset && block.dataset.overlayCtaText) || block.getAttribute('data-overlay-cta-text') || '';
+          const aueNodeNow = block.querySelector && block.querySelector('[data-aue-prop="overlayCtaText"]');
+          const aueTextNow = aueNodeNow && aueNodeNow.textContent && aueNodeNow.textContent.trim() || '';
+          const preferredNow = modelTextNow || aueTextNow || '';
+          const ctaElNow = block.querySelector && block.querySelector('.overlay-cta');
+          if (preferredNow && ctaElNow && !(preferredNow === runtimeCta || /^https?:\/\//.test(preferredNow) || preferredNow.startsWith('/'))) {
+            ctaElNow.textContent = preferredNow;
+          }
+          // update inline debug if present
+          const inlineDbgNow = block.querySelector && block.querySelector('.video-debug-inline');
+          if (inlineDbgNow) inlineDbgNow.textContent = `CTA: ${preferredNow || '(none)'}`;
+        } catch (e) {
+          // ignore
+        }
+      };
+
+      let debounceTimer;
+      const mo = new MutationObserver(() => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => applyCtaOverride(), 150);
+      });
+      mo.observe(block, { attributes: true, childList: true, subtree: true });
+      // auto-disconnect after 20s to avoid long-lived observers in production
+      setTimeout(() => {
+        try { mo.disconnect(); } catch (e) {}
+      }, 20000);
+      block.__videoCtaObserver = mo;
+    }
+  } catch (e) {
+    // ignore observer errors
+  }
+
   // HARD OVERRIDE: only replace CTA text when an explicit model (`data-overlay-cta-text`) or
   // AEM `data-aue-prop="overlayCtaText"` value is present. Ignore generic buttons elsewhere.
   const preferredCtaLabel = modelOverlayCtaText || aueOverlayCtaText || '';
