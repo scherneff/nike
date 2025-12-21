@@ -102,50 +102,60 @@ export default function decorate(block) {
     block.appendChild(overlay);
   }
 
-  // Render the 3rd div as the link and the 4th div as the label overlay
-  if (linkDiv || labelDiv) {
-    const ctaOverlay = document.createElement('div');
-    ctaOverlay.className = 'video-cta-overlay';
-    ctaOverlay.style.position = 'absolute';
-    ctaOverlay.style.bottom = '32px';
-    ctaOverlay.style.left = '50%';
-    ctaOverlay.style.transform = 'translateX(-50%)';
-    ctaOverlay.style.display = 'flex';
-    ctaOverlay.style.flexDirection = 'column';
-    ctaOverlay.style.alignItems = 'center';
-    ctaOverlay.style.zIndex = '3';
-    ctaOverlay.style.pointerEvents = 'auto';
-
-    // 4th div value for label (used for link text)
-    let labelText = '';
-    if (labelDiv) {
-      labelText = labelDiv.textContent.trim();
+  // Render the 3rd div as subtext between overlay and link
+  if (linkDiv) {
+    const subtextOverlay = document.createElement('div');
+    subtextOverlay.className = 'video-subtext-overlay';
+    while (linkDiv.firstChild) {
+      subtextOverlay.appendChild(linkDiv.firstChild);
     }
+    subtextOverlay.style.position = 'absolute';
+    subtextOverlay.style.left = '50%';
+    subtextOverlay.style.top = '60%';
+    subtextOverlay.style.transform = 'translateX(-50%)';
+    subtextOverlay.style.zIndex = '3';
+    subtextOverlay.style.pointerEvents = 'none';
+    subtextOverlay.style.color = '#fff';
+    subtextOverlay.style.textShadow = '0 2px 8px rgba(0,0,0,0.7)';
+    subtextOverlay.style.fontSize = '1.25rem';
+    block.appendChild(subtextOverlay);
+  }
 
-    // 3rd div is always the link
-    if (linkDiv) {
-      let linkEl = linkDiv.querySelector('a');
-      if (!linkEl) {
-        // If not an <a>, wrap content in a link
-        linkEl = document.createElement('a');
-        linkEl.href = '#';
-      }
-      linkEl.classList.add('video-cta-link');
-      // Replace link text with labelText if available
-      if (labelText) linkEl.textContent = labelText;
-      ctaOverlay.appendChild(linkEl);
+  // Render the 4th div as a link (a href) and set its text to the value from the 5th div
+  if (divs[3] || divs[4]) {
+    const linkDiv = divs[3];
+    const valueDiv = divs[4];
+    let href = '#';
+    let linkText = '';
+    // Get href from an <a> in the 4th div, or use its text
+    const aTag = linkDiv ? linkDiv.querySelector('a') : null;
+    if (aTag && aTag.getAttribute('href')) {
+      href = aTag.getAttribute('href');
+    } else if (linkDiv) {
+      href = linkDiv.textContent.trim();
     }
-
-    // 4th div is always the label (optional, if you want to show it separately as well)
-    // If you want to show the label only as the link text, comment out the next block
-    // if (labelDiv) {
-    //   const labelContainer = document.createElement('div');
-    //   labelContainer.className = 'video-cta-label';
-    //   while (labelDiv.firstChild) {
-    //     labelContainer.appendChild(labelDiv.firstChild);
-    //   }
-    //   ctaOverlay.appendChild(labelContainer);
-    // }
-    block.appendChild(ctaOverlay);
+    // Get value from 5th div
+    if (valueDiv) {
+      linkText = valueDiv.textContent.trim();
+    }
+    // Create overlay link
+    const linkOverlay = document.createElement('a');
+    linkOverlay.className = 'video-link-overlay';
+    linkOverlay.href = href;
+    linkOverlay.textContent = linkText || href;
+    // Style overlay for positioning
+    linkOverlay.style.position = 'absolute';
+    linkOverlay.style.bottom = '32px';
+    linkOverlay.style.left = '50%';
+    linkOverlay.style.transform = 'translateX(-50%)';
+    linkOverlay.style.zIndex = '4';
+    linkOverlay.style.pointerEvents = 'auto';
+    linkOverlay.style.color = '#fff';
+    linkOverlay.style.background = 'rgba(0,0,0,0.5)';
+    linkOverlay.style.padding = '0.5em 1em';
+    linkOverlay.style.borderRadius = '24px';
+    linkOverlay.style.textDecoration = 'none';
+    linkOverlay.style.fontWeight = 'bold';
+    block.appendChild(linkOverlay);
   }
 }
