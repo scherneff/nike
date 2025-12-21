@@ -23,7 +23,7 @@
   /* aspect-ratio: 16 / 9; */
   object-fit: cover;
   min-height: 255px;
-  max-height: 255px;
+  /* max-height: 255px; */
   overflow: hidden;
   transition: transform 0.4s ease;
   transform-origin: 50% 50%;
