@@ -121,10 +121,11 @@ export default function decorate(block) {
   const preAnchors = Array.from(block.querySelectorAll('a'));
 
   // read model-driven values if rendered as data attributes on the block
-  const modelOverlayText = (block.dataset && block.dataset.overlayText) || '';
-  const modelOverlayCta = (block.dataset && block.dataset.overlayCtaUrl) || '';
-  const modelOverlayPosition = (block.dataset && block.dataset.overlayPosition) || '';
-  const modelOverlayCtaText = (block.dataset && block.dataset.overlayCtaText) || '';
+  const modelOverlayText = (block.dataset && block.dataset.overlayText) || block.getAttribute('data-overlay-text') || '';
+  const modelOverlayCta = (block.dataset && block.dataset.overlayCtaUrl) || block.getAttribute('data-overlay-cta-url') || block.getAttribute('data-overlayctaurl') || '';
+  const modelOverlayPosition = (block.dataset && block.dataset.overlayPosition) || block.getAttribute('data-overlay-position') || '';
+  // try multiple possible attribute names that different templates might emit for CTA text
+  const modelOverlayCtaText = (block.dataset && block.dataset.overlayCtaText) || block.getAttribute('data-overlay-cta-text') || block.getAttribute('data-overlayctatext') || block.getAttribute('data-cta-text') || '';
 
   block.textContent = '';
   block.dataset.embedLoaded = false;
@@ -277,4 +278,13 @@ export default function decorate(block) {
 
   overlay.appendChild(content);
   block.appendChild(overlay);
+
+  // If a model-provided CTA label exists, prefer it over authored/displayed CTA text
+  if (modelOverlayCtaText || aueOverlayCtaText || runtimeCtaText) {
+    const preferred = modelOverlayCtaText || aueOverlayCtaText || runtimeCtaText || '';
+    if (preferred && !(preferred === runtimeCta || /^https?:\/\//.test(preferred) || preferred.startsWith('/'))) {
+      const ctaEl = block.querySelector('.overlay-cta');
+      if (ctaEl) ctaEl.textContent = preferred;
+    }
+  }
 }
