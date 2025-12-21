@@ -274,7 +274,7 @@
 /* Card Teaser Overlay */
 .cards > ul > li.teaser-overlay {
   box-shadow: 0 3px 20px #00000010;
-  border: 1px solid var(--light-color);
+  /* border: 1px solid var(--light-color); */
   border-radius: 4px;
   flex-direction: column;
   gap: 0;
@@ -297,7 +297,7 @@
   background-color: rgba(0, 0, 0, .5);
   color: var(--text-light);
   display: block;
-  align-content: center;
+  align-content: end;
 }
 .cards > ul > li.teaser-overlay .cards-card-body div[data-aue-type="richtext"] {
   width: 50%;
@@ -314,10 +314,16 @@
   line-height: 32px;
 
 }
+.cards > ul > li.teaser-overlay .cards-card-body h3 {
+  margin: 0;
+  font-size: 32px;
+  line-height: 32px;
+
+}
 .cards > ul > li.teaser-overlay .cards-card-body p {
   margin: 10px 0;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 18px;
+  line-height: 18px;
 }
 .cards > ul > li.teaser-overlay picture {
   width: 100%;
