@@ -52,6 +52,7 @@
         "button",
         "title",
         "dm-asset",
+        "dm-template",
         "video"
       ]
     }
