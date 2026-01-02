@@ -251,15 +251,15 @@
     font-family: "Helvetica Now Text";
     font-style: normal;
     font-weight: 400;
-    src: url(../fonts/HelveticaNowText.woff2) format('woff2')
+    src: url(../../fonts/HelveticaNowText.woff2) format('woff2')
 }
 
 @font-face {
     font-family: "Helvetica Now Text Medium";
     font-style: normal;
     font-weight: 400;
-    src: url(../fonts/HelveticaNowTextMedium.woff2) format('woff2');
-    src: url(../fonts/helvetica-now-text-medium.ttf) format('ttf')
+    src: url(../../fonts/HelveticaNowTextMedium.woff2) format('woff2');
+    src: url(../../fonts/helvetica-now-text-medium.ttf) format('ttf')
 }
 .content-fragment-wrapper .content-fragment .banner-content.nike-cf-style {
   display: flex;
@@ -287,19 +287,39 @@
 }
 
 .content-fragment-wrapper .content-fragment .banner-content.nike-cf-style .banner-detail .cftitle {
-  color: white;
-   font-family: "Helvetica Now Text Medium", Helvetica, Arial, sans-serif;
-   text-transform: uppercase;
-   font-weight: 700;
+  font-family: 'Futura ND', 'Futura PT', 'Avenir Next', 'Arial', 'Helvetica Neue', Arial, Helvetica, sans-serif !important;
+  font-weight: 800 !important;
+  font-size: 40px;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  transform: scaleY(1.2);
+  margin: 0 0 0.3rem 0;
+  color: #fff;
 }
 
 .content-fragment-wrapper .content-fragment .banner-content.nike-cf-style .banner-detail .cfsubtitle {
   color: white;
+  font-family: 'Helvetica Now Text Medium', Arial, Helvetica, sans-serif !important;
+  font-weight: 500!important;
+  font-size: 16px;
 }
 
 .content-fragment-wrapper .content-fragment .banner-content.nike-cf-style .banner-detail .cfdescription {
   color: white;
 }
+
+.content-fragment-wrapper .content-fragment .banner-content.nike-cf-style .banner-detail .cftitle::after {
+ /*  background-color: white;
+  content: "";
+  display: block;
+  height: 5px;
+  margin: auto;
+  transition: width .4s ease-in-out;
+  width: 128px;
+  margin: 10px auto; */
+}
+
 
 /* Common styles for all image layouts */
 .content-fragment-wrapper .content-fragment .banner-content.image-left .banner-detail .cftitle,
