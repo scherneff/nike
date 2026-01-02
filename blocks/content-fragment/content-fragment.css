@@ -246,6 +246,21 @@
 }
 
 /* Nike CF Style */
+
+@font-face {
+    font-family: "Helvetica Now Text";
+    font-style: normal;
+    font-weight: 400;
+    src: url(../fonts/HelveticaNowText.woff2) format('woff2')
+}
+
+@font-face {
+    font-family: "Helvetica Now Text Medium";
+    font-style: normal;
+    font-weight: 400;
+    src: url(../fonts/HelveticaNowTextMedium.woff2) format('woff2');
+    src: url(../fonts/helvetica-now-text-medium.ttf) format('ttf')
+}
 .content-fragment-wrapper .content-fragment .banner-content.nike-cf-style {
   display: flex;
   flex-direction: column;
@@ -268,30 +283,43 @@
   background: var(--light-color);
   position: relative;
   z-index: 2;
-  margin-bottom: 56%;
+  margin-bottom: 56%
 }
+
+.content-fragment-wrapper .content-fragment .banner-content.nike-cf-style .banner-detail .cftitle {
+  color: white;
+   font-family: "Helvetica Now Text Medium", Helvetica, Arial, sans-serif;
+   text-transform: uppercase;
+   font-weight: 700;
+}
+
+.content-fragment-wrapper .content-fragment .banner-content.nike-cf-style .banner-detail .cfsubtitle {
+  color: white;
+}
+
+.content-fragment-wrapper .content-fragment .banner-content.nike-cf-style .banner-detail .cfdescription {
+  color: white;
+}
+
 /* Common styles for all image layouts */
 .content-fragment-wrapper .content-fragment .banner-content.image-left .banner-detail .cftitle,
 .content-fragment-wrapper .content-fragment .banner-content.image-right .banner-detail .cftitle,
 .content-fragment-wrapper .content-fragment .banner-content.image-top .banner-detail .cftitle,
-.content-fragment-wrapper .content-fragment .banner-content.image-bottom .banner-detail .cftitle,
-.content-fragment-wrapper .content-fragment .banner-content.nike-cf-style .banner-detail .cftitle {
+.content-fragment-wrapper .content-fragment .banner-content.image-bottom .banner-detail .cftitle {
   color: var(--text-color);
 }
 
 .content-fragment-wrapper .content-fragment .banner-content.image-left .banner-detail .cfsubtitle,
 .content-fragment-wrapper .content-fragment .banner-content.image-right .banner-detail .cfsubtitle,
 .content-fragment-wrapper .content-fragment .banner-content.image-top .banner-detail .cfsubtitle,
-.content-fragment-wrapper .content-fragment .banner-content.image-bottom .banner-detail .cfsubtitle,
-.content-fragment-wrapper .content-fragment .banner-content.nike-cf-style .banner-detail .cfsubtitle {
+.content-fragment-wrapper .content-fragment .banner-content.image-bottom .banner-detail .cfsubtitle {
   color: #666;
 }
 
 .content-fragment-wrapper .content-fragment .banner-content.image-left .banner-detail .cfdescription,
 .content-fragment-wrapper .content-fragment .banner-content.image-right .banner-detail .cfdescription,
 .content-fragment-wrapper .content-fragment .banner-content.image-top .banner-detail .cfdescription,
-.content-fragment-wrapper .content-fragment .banner-content.image-bottom .banner-detail .cfdescription,
-.content-fragment-wrapper .content-fragment .banner-content.nike-cf-style .banner-detail .cfdescription {
+.content-fragment-wrapper .content-fragment .banner-content.image-bottom .banner-detail .cfdescription {
   color: var(--text-color);
   width: 100%;
   /* text-align: left; */
