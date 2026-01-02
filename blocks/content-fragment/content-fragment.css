@@ -85,18 +85,19 @@
 .content-fragment-wrapper .content-fragment .banner-content .banner-detail a {
   display: inline-block;
   padding: 0;
-  background-color: transparent;
-  color: var(--text-light);
+  background-color: white;
+  color: black;
   text-decoration: none;
   outline: none;
   border: none;
-  border-radius: 0;
+  border-radius: 30px;
   font-size: 16px;
   font-family: var(--heading-font-family);
-  line-height: 20px;
+  line-height: 14px;
   font-weight: 500;
-  text-align: left;
+  text-align: center;
   cursor: pointer;
+  padding: 10px;;
 }
 .content-fragment-wrapper .content-fragment .banner-content .banner-detail a::after {
   font-family: 'Font Awesome 5 Solid';
@@ -113,6 +114,7 @@
   border-radius: 0;
   padding: 1px 10px;
   cursor: pointer;
+  display: none;
 }
 
 /* Image Left Layout - Image on left, text on right */
@@ -346,7 +348,7 @@
 .content-fragment-wrapper .content-fragment .banner-content.nike-cf-style .banner-detail a {
   /* text-align: left; */ 
   /* align-self: flex-start; */
-  color: var(--text-color);
+  color: black !important;
 }
 
 .content-fragment-wrapper .content-fragment .banner-content.image-left .banner-detail a::after,
