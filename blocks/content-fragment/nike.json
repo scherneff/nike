@@ -1,0 +1,208 @@
+{
+  "data": {
+    "ctaList": {
+      "items": [
+        {
+          "title": "Bring the Attack!",
+          "subtitle": "Stay on the offense with the latest Phantom and Mercurial from Nike Soccer",
+          "description": {
+            "plaintext": "Built for speed, the new Phantom and Mercurial shoes offer precision and control, with advanced traction and a lightweight feel for creative play.\n"
+          },
+          "__typename": "CtaModel",
+          "_model": {
+            "_path": "/conf/ref-demo-eds/settings/dam/cfm/models/cta",
+            "_id": null,
+            "title": "CTA"
+          },
+          "_variation": "master",
+          "bannerimage": {
+            "_authorUrl": "https://author-p178552-e1883614.adobeaemcloud.com/content/dam/nike/en/campaigns/luka-5/imgi_1_JORDAN%2BLUKA%2B5.png",
+            "_publishUrl": "https://publish-p178552-e1883614.adobeaemcloud.com/content/dam/nike/en/campaigns/luka-5/imgi_1_JORDAN%2BLUKA%2B5.png",
+            "_smartCrops": [
+              {
+                "name": "Swatch"
+              },
+              {
+                "name": "54vert"
+              },
+              {
+                "name": "169banner"
+              },
+              {
+                "name": "11square"
+              }
+            ],
+            "_dmS7Url": "https://s7d1.scene7.com/is/image/Cherneff/imgi_1_JORDAN_LUKA_5",
+            "_dynamicUrl": "/adobe/dynamicmedia/deliver/dm-aid--a6904120-519b-46ac-b454-bfe03c3dea5c/imgi_1_JORDAN_LUKA_5.jpg"
+          },
+          "_path": "/content/dam/nike/en/fragments/fragment-one",
+          "ctalabel": "Shop",
+          "ctaurl": {
+            "_path": "/content/nike/language-masters/en",
+            "_authorUrl": "https://author-p178552-e1883614.adobeaemcloud.com/content/nike/language-masters/en.html"
+          }
+        },
+        {
+          "title": "Bring the Attack!",
+          "subtitle": "Stay on the offense with the latest Phantom and Mercurial from Nike Soccer",
+          "description": {
+            "plaintext": "Built for speed, the new Phantom and Mercurial shoes offer precision and control, with advanced traction and a lightweight feel for creative play.\n"
+          },
+          "__typename": "CtaModel",
+          "_model": {
+            "_path": "/conf/ref-demo-eds/settings/dam/cfm/models/cta",
+            "_id": null,
+            "title": "CTA"
+          },
+          "_variation": "master",
+          "bannerimage": {
+            "_authorUrl": "https://author-p178552-e1883614.adobeaemcloud.com/content/dam/nike/en/images/soccer-wide.png",
+            "_publishUrl": "https://publish-p178552-e1883614.adobeaemcloud.com/content/dam/nike/en/images/soccer-wide.png",
+            "_smartCrops": [
+              {
+                "name": "Swatch"
+              },
+              {
+                "name": "54vert"
+              },
+              {
+                "name": "169banner"
+              },
+              {
+                "name": "11square"
+              }
+            ],
+            "_dmS7Url": "https://s7d1.scene7.com/is/image/Cherneff/soccer-wide",
+            "_dynamicUrl": "/adobe/dynamicmedia/deliver/dm-aid--5d1e49d6-4fec-487a-8259-7fb3259477dc/soccer_wide.jpg"
+          },
+          "_path": "/content/dam/nike/en/fragments/promotions/fragment-one",
+          "ctalabel": "Shop",
+          "ctaurl": {
+            "_path": "/content/nike/language-masters/en",
+            "_authorUrl": "https://author-p178552-e1883614.adobeaemcloud.com/content/nike/language-masters/en.html"
+          }
+        },
+        {
+          "title": "Coming Soon: Nike Mind",
+          "subtitle": "A Mind-Altering Shoe",
+          "description": {
+            "plaintext": "Groundbreaking innovation in footwear, designed to enhance the connection between the mind and body."
+          },
+          "__typename": "CtaModel",
+          "_model": {
+            "_path": "/conf/ref-demo-eds/settings/dam/cfm/models/cta",
+            "_id": null,
+            "title": "CTA"
+          },
+          "_variation": "master",
+          "bannerimage": {
+            "_authorUrl": "https://author-p178552-e1883614.adobeaemcloud.com/content/dam/nike/en/category/offers/imgi_4_nike-just-do-it.jpg",
+            "_publishUrl": "https://publish-p178552-e1883614.adobeaemcloud.com/content/dam/nike/en/category/offers/imgi_4_nike-just-do-it.jpg",
+            "_smartCrops": [
+              {
+                "name": "Swatch"
+              },
+              {
+                "name": "54vert"
+              },
+              {
+                "name": "169banner"
+              },
+              {
+                "name": "11square"
+              }
+            ],
+            "_dmS7Url": "https://s7d1.scene7.com/is/image/Cherneff/imgi_4_nike-just-do-it",
+            "_dynamicUrl": "/adobe/dynamicmedia/deliver/dm-aid--62f23d58-f062-451a-a25d-5d3b2059e9ed/imgi_4_nike_just_do_it.jpg"
+          },
+          "_path": "/content/dam/nike/en/fragments/promotions/fragment-three",
+          "ctalabel": "Explore",
+          "ctaurl": {
+            "_path": "/content/nike/language-masters/en",
+            "_authorUrl": "https://author-p178552-e1883614.adobeaemcloud.com/content/nike/language-masters/en.html"
+          }
+        },
+        {
+          "title": "Jordan Trunner",
+          "subtitle": "Off-Season Comfort",
+          "description": {
+            "plaintext": "A modern take on the original Jordan Trunner, blending the best of both worlds: training and running."
+          },
+          "__typename": "CtaModel",
+          "_model": {
+            "_path": "/conf/ref-demo-eds/settings/dam/cfm/models/cta",
+            "_id": null,
+            "title": "CTA"
+          },
+          "_variation": "master",
+          "bannerimage": {
+            "_authorUrl": "https://author-p178552-e1883614.adobeaemcloud.com/content/dam/nike/en/category/offers/imgi_3_nike-just-do-it.jpg",
+            "_publishUrl": "https://publish-p178552-e1883614.adobeaemcloud.com/content/dam/nike/en/category/offers/imgi_3_nike-just-do-it.jpg",
+            "_smartCrops": [
+              {
+                "name": "Swatch"
+              },
+              {
+                "name": "54vert"
+              },
+              {
+                "name": "169banner"
+              },
+              {
+                "name": "11square"
+              }
+            ],
+            "_dmS7Url": "https://s7d1.scene7.com/is/image/Cherneff/imgi_3_nike-just-do-it-1",
+            "_dynamicUrl": "/adobe/dynamicmedia/deliver/dm-aid--08669ab1-dd4f-4557-8138-067ab529e26e/imgi_3_nike_just_do_it.jpg"
+          },
+          "_path": "/content/dam/nike/en/fragments/promotions/fragment-two",
+          "ctalabel": "Shop",
+          "ctaurl": {
+            "_path": "/content/nike/language-masters/en",
+            "_authorUrl": "https://author-p178552-e1883614.adobeaemcloud.com/content/nike/language-masters/en.html"
+          }
+        },
+        {
+          "title": "¡Que ataquen!",
+          "subtitle": "Mantente a la ofensiva con el último Phantom and Mercurial de Nike Soccer",
+          "description": {
+            "plaintext": "Diseñadas para la velocidad, las nuevas zapatillas Phantom y Mercurial ofrecen precisión y control, con tracción avanzada y una sensación ligera para el juego creativo."
+          },
+          "__typename": "CtaModel",
+          "_model": {
+            "_path": "/conf/ref-demo-eds/settings/dam/cfm/models/cta",
+            "_id": null,
+            "title": "CTA"
+          },
+          "_variation": "master",
+          "bannerimage": {
+            "_authorUrl": "https://author-p178552-e1883614.adobeaemcloud.com/content/dam/nike/en/campaigns/luka-5/imgi_1_JORDAN%2BLUKA%2B5.png",
+            "_publishUrl": "https://publish-p178552-e1883614.adobeaemcloud.com/content/dam/nike/en/campaigns/luka-5/imgi_1_JORDAN%2BLUKA%2B5.png",
+            "_smartCrops": [
+              {
+                "name": "Swatch"
+              },
+              {
+                "name": "54vert"
+              },
+              {
+                "name": "169banner"
+              },
+              {
+                "name": "11square"
+              }
+            ],
+            "_dmS7Url": "https://s7d1.scene7.com/is/image/Cherneff/imgi_1_JORDAN_LUKA_5",
+            "_dynamicUrl": "/adobe/dynamicmedia/deliver/dm-aid--a6904120-519b-46ac-b454-bfe03c3dea5c/imgi_1_JORDAN_LUKA_5.jpg"
+          },
+          "_path": "/content/dam/nike/es/fragments/fragment-one",
+          "ctalabel": "Tienda",
+          "ctaurl": {
+            "_path": "/content/nike/language-masters/es",
+            "_authorUrl": "https://author-p178552-e1883614.adobeaemcloud.com/content/nike/language-masters/es.html"
+          }
+        }
+      ]
+    }
+  }
+}
