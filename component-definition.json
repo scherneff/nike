@@ -342,6 +342,21 @@
           }
         },
         {
+          "title": "Date Input",
+          "id": "date-input",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/fd/components/form/datepicker/v1/datepicker",
+                "template": {
+                  "jcr:title": "Date Input",
+                  "fieldType": "date-input"
+                }
+              }
+            }
+          }
+        },
+        {
           "title": "Dropdown List",
           "id": "drop-down",
           "plugins": {
