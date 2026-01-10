@@ -6847,7 +6847,7 @@
         "name": "Tag Selector",
         "label": "Tag(s) Selector",
         "valueType": "array",
-        "value": [""],
+        "value":[],
         "options": [
           { "name": "nike:sports/basketball", "value": "1" },
           { "name": "nike:sports/football", "value": "2" },
