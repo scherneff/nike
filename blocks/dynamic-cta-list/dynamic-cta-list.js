@@ -203,11 +203,11 @@ async function renderCTAByTag(
             <p>${cfReq?.description?.plaintext || ''}</p>
           </div>
 
-          <p class="button-container">
+          <p class="button-container ${ctaStyle}">
             <a href="${ctaHref}"
               target="_blank"
               rel="noopener"
-              class="button ${ctaStyle}"
+              class="button"
               data-aue-prop="ctaurl"
               data-aue-label="Button Link/URL"
               data-aue-type="reference"
